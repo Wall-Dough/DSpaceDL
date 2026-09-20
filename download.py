@@ -11,6 +11,7 @@ DSPACE_STEM = "http://125.22.54.221:8080"
 
 
 def downloadItem(xmlURL):
+    print("Downloading: " + xmlURL)
     x = requests.get(xmlURL)
 
     if x.ok:
@@ -50,7 +51,7 @@ for url in sys.argv[1:]:
     check_if_item = re.findall(
         r'^http(s?):.+\/jspui\/handle\/[\d\.]+\/[\d\.]+$', url)
     check_if_search = re.findall(
-        r'^http(s?):.+\/jspui\/simple-search\?(query=(.+))$', url)
+        r'^http(s?):.+\/jspui\/simple-search\?.*(query=(.+))$', url)
 
     if not url.startswith(DSPACE_STEM):
         raise RuntimeError("Invalid URL format: " + url)
