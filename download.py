@@ -15,10 +15,10 @@ def downloadItem(xmlURL):
 
     if x.ok:
         obj = re.findall(
-            "((\/xmlui\/bitstream\/handle\/[\d\.]+\/[\d\.]+\/(.+))\?[^\"]*)", x.text)
+            r'((\/xmlui\/bitstream\/handle\/[\d\.]+\/[\d\.]+\/(.+))\?[^\"]*)', x.text)
 
         folderName = re.findall(
-            "<a href=\"\/xmlui\/handle\/\d+\/\d+\">(.+)<\/a>", x.text)
+            r'<a href=\"\/xmlui\/handle\/\d+\/\d+\">(.+)<\/a>', x.text)
 
         folderName = folderName[1]
         folderName = re.sub(r'[^\w\-_\. ]', '_', folderName)
@@ -50,9 +50,9 @@ if len(sys.argv) <= 1:
 
 for url in sys.argv[1:]:
     check_if_item = re.findall(
-        "^http(s?):.+\/jspui\/handle\/[\d\.]+\/[\d\.]+$", url)
+        r'^http(s?):.+\/jspui\/handle\/[\d\.]+\/[\d\.]+$', url)
     check_if_search = re.findall(
-        "^http(s?):.+\/jspui\/simple-search\?(query=(.+))$", url)
+        r'^http(s?):.+\/jspui\/simple-search\?(query=(.+))$', url)
 
     if not url.startswith(DSPACE_STEM):
         print("Error: Invalid URL format")
@@ -81,7 +81,7 @@ for url in sys.argv[1:]:
 
             if search_page.ok:
                 items = re.findall(
-                    "\"(\/jspui\/handle\/[\d\.]+\/[\d\.]+)\"", search_page.text)
+                    r'\"(\/jspui\/handle\/[\d\.]+\/[\d\.]+)\"', search_page.text)
                 if len(items) == 0:
                     allFound = True
                 for item in items:
