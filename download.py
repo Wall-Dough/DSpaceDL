@@ -40,13 +40,11 @@ def downloadItem(xmlURL):
                 print(
                     "Error: Couldn't download file. Please DM or @ PyRet#4288 on Discord")
     else:
-        print("Error: Couldn't fetch URL. Try checking your URL?")
-        exit()
+        raise RuntimeError("Couldn't fetch URL. Try checking your URL?")
 
 
 if len(sys.argv) <= 1:
-    print("Error: Please provide atleast one URL to download from")
-    exit()
+    raise RuntimeError("Error: Please provide atleast one URL to download from")
 
 for url in sys.argv[1:]:
     check_if_item = re.findall(
@@ -55,8 +53,7 @@ for url in sys.argv[1:]:
         r'^http(s?):.+\/jspui\/simple-search\?(query=(.+))$', url)
 
     if not url.startswith(DSPACE_STEM):
-        print("Error: Invalid URL format")
-        exit()
+        raise RuntimeError("Invalid URL format: " + url)
 
     if check_if_item:
         xmlURL = url.replace("/jspui/handle/", "/xmlui/handle/")
@@ -88,8 +85,6 @@ for url in sys.argv[1:]:
                     downloadItem(
                         DSPACE_STEM + item.replace("/jspui/handle/", "/xmlui/handle/"))
             else:
-                print("Error: Couldn't fetch URL. Try checking your URL?")
-                exit()
+                raise RuntimeError("Error: Couldn't fetch URL. Try checking your URL?")
     else:
-        print("Error: Invalid URL format")
-        exit()
+        raise RuntimeError("Invalid URL format: " + url)
